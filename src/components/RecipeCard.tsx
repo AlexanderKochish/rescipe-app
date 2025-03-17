@@ -1,14 +1,17 @@
+import { Link } from "react-router-dom";
+
 type Props = {
+  id: string
   image: string | null;
   recipeName: string | null;
   decsription?: string | null;
 };
 
-const RecipeCard = ({ image, recipeName }: Props) => {
+const RecipeCard = ({ image, recipeName, id }: Props) => {
   return (
     <div className="bg-white">
       <div className="mx-auto sm:px-3 sm:py-2 lg:max-w-4xl">
-        <div className="mt-4">
+        <Link to={`/recipe/${id}`}><div className="mt-4">
           <figure className="group relative">
             {image ? (
               <img
@@ -22,6 +25,7 @@ const RecipeCard = ({ image, recipeName }: Props) => {
             </figcaption>
           </figure>
         </div>
+        </Link>
       </div>
     </div>
   );
