@@ -2,16 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import RecipeCard from "../../components/RecipeCard";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useDebounce } from "../../hooks/useDebounce";
 import { getAllCategories, getAllRecipes } from "../../api/api";
 import { Meal } from "../../utils/types";
+import useSearchFilter from "../../hooks/useSearchFilter";
 
 const RecipesPage = () => {
-  const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const {
+    debounceValue,
+    selectedCategory, 
+    search, 
+    setSearch, 
+    setSelectedCategory
+  } = useSearchFilter()
   const [cart, setCart] = useState<Meal[]>([]);
-  const debounceValue = useDebounce({ value: search, delay: 1000 });
-
+  
   const { data, isLoading, error } = useQuery({
     queryKey: ["recipes", debounceValue, "categories"],
     queryFn: async () => {
