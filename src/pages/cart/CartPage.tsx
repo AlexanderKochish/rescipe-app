@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Meal } from "../../utils/types";
+import CartItem from "../../components/CartItem/Cart.Item";
 
 const CartPage = () => {
   const location = useLocation();
@@ -12,8 +13,16 @@ const CartPage = () => {
       for (let i = 1; i <= 20; i++) {
         const ingredient = meal[`strIngredient${i}` as keyof Meal];
         const measure = meal[`strMeasure${i}` as keyof Meal];
+    
         if (ingredient) {
-          allIngredients.push(`${ingredient} - ${measure}`);
+          const all = new Map();
+          all.set(ingredient, measure);
+    
+          const numericPart = parseFloat(measure || "");
+          const isNumber = !isNaN(numericPart);
+    
+          const result = isNumber ? numericPart * 2 : measure;
+          allIngredients.push(`${ingredient} - ${typeof result === 'number'? `${result}${measure?.replace(/^\d+(\s\d+\/\d+|\.\d+|\/\d+)?|\d+$/g, '')}`: ''}`);
         }
       }
     });
@@ -29,24 +38,14 @@ const CartPage = () => {
 
       {cart.length > 0 ? (
         <div>
-          <h2>Selected recipes:</h2>
-          <ul>
+          <h2 className="font-bold">Selected recipes:</h2>
+          <ul className="flex flex-wrap gap-2 w-full">
             {cart.map((meal) => (
-              <li key={meal.idMeal} className="flex space-x-4 items-center">
-                <img
-                  src={meal.strMealThumb}
-                  alt={meal.strMeal}
-                  className="w-20 h-20 object-cover rounded"
-                />
-                <div>
-                  <h3>{meal.strMeal}</h3>
-                  <p>Category: {meal.strCategory}</p>
-                </div>
-              </li>
+              <CartItem meal={meal} key={meal.idMeal}/>
             ))}
           </ul>
 
-          <h2 className="mt-6">Ingredients required for selected recipes:</h2>
+          <h3 className="mt-6 font-bold">Ingredients required for selected recipes:</h3>
           <ul>
             {ingredients.length > 0 ? (
               ingredients.map((ingredient, index) => (

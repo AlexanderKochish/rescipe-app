@@ -9,13 +9,13 @@ import useSearchFilter from "../../hooks/useSearchFilter";
 const RecipesPage = () => {
   const {
     debounceValue,
-    selectedCategory, 
-    search, 
-    setSearch, 
-    setSelectedCategory
-  } = useSearchFilter()
+    selectedCategory,
+    search,
+    setSearch,
+    setSelectedCategory,
+  } = useSearchFilter();
   const [cart, setCart] = useState<Meal[]>([]);
-  
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["recipes", debounceValue, "categories"],
     queryFn: async () => {
@@ -86,7 +86,11 @@ const RecipesPage = () => {
         {filteredMeals?.length ? (
           filteredMeals.map((r) => (
             <li className="w-full flex flex-col" key={r.idMeal}>
-              <RecipeCard id={r.idMeal} image={r.strMealThumb} recipeName={r.strMeal} />
+              <RecipeCard
+                id={r.idMeal}
+                image={r.strMealThumb}
+                recipeName={r.strMeal}
+              />
               <button
                 onClick={() => addToCart(r)}
                 className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
