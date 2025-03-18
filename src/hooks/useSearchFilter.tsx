@@ -11,11 +11,15 @@ const useSearchFilter = () => {
   const [selectedCategory, setSelectedCategory] = useState(
     searchParams.get("category") || "",
   );
+  const[page, setPage] = useState(searchParams.get("page") || "1")
   const debounceValue = useDebounce({ value: search, delay: 1000 });
 
   useEffect(() => {
     const newParams = new URLSearchParams();
 
+    if(page){
+      newParams.set("page", page)
+    }
     if (selectedCategory) {
       newParams.set("category", selectedCategory);
     }
@@ -25,13 +29,15 @@ const useSearchFilter = () => {
     }
 
     navigate(`?${newParams.toString()}`);
-  }, [debounceValue, selectedCategory, navigate]);
+  }, [debounceValue, selectedCategory, page, navigate]);
   return {
     debounceValue,
     search,
     setSearch,
     selectedCategory,
     setSelectedCategory,
+    page,
+    setPage
   };
 };
 

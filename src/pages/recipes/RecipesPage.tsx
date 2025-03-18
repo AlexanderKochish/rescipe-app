@@ -5,6 +5,7 @@ import { useState } from "react";
 import { getAllCategories, getAllRecipes } from "../../api/api";
 import { Meal } from "../../utils/types";
 import useSearchFilter from "../../hooks/useSearchFilter";
+import usePagination from "../../hooks/usePagination";
 
 const RecipesPage = () => {
   const {
@@ -13,6 +14,7 @@ const RecipesPage = () => {
     search,
     setSearch,
     setSelectedCategory,
+    setPage,
   } = useSearchFilter();
   const [cart, setCart] = useState<Meal[]>([]);
 
@@ -28,7 +30,7 @@ const RecipesPage = () => {
   const filteredMeals = data?.meals.filter((meal) => {
     if (!selectedCategory) return true;
     return meal.strCategory === selectedCategory;
-  });
+  }) || [];
 
   const addToCart = (meal: Meal) => {
     const isRecipeInCart = cart.some((item) => item.idMeal === meal.idMeal);
@@ -40,8 +42,14 @@ const RecipesPage = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  const { currPage, totalPages, currentItems, nextPage, prevPage, setCurrPage, pages } = usePagination (filteredMeals, 4);
+  if (isLoading) return <p className="font-bold text-2xl text-center">Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+
+  const handlePage = (p: number) => {
+    setPage(String(p))
+    setCurrPage(Number(p))
+  }
 
   return (
     <div>
@@ -83,8 +91,8 @@ const RecipesPage = () => {
       </ul>
 
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-[minmax(100px,1fr)] gap-4">
-        {filteredMeals?.length ? (
-          filteredMeals.map((r) => (
+        {currentItems?.length ? (
+          currentItems.map((r) => (
             <li className="w-full flex flex-col" key={r.idMeal}>
               <RecipeCard
                 id={r.idMeal}
@@ -103,6 +111,29 @@ const RecipesPage = () => {
           <p>There are no recipes for the selected category.</p>
         )}
       </ul>
+
+      <div className="flex justify-center space-x-2 mt-4">
+        <button onClick={prevPage} disabled={currPage === 1} className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50">
+          {"<"}
+        </button>
+
+        {pages.map((p, index) => (
+          <button
+            key={index}
+            onClick={() => typeof p === "number" && handlePage(p)}
+            className={`px-3 py-1 rounded ${
+              currPage === p ? "bg-blue-500 text-white" : "bg-gray-300"
+            }`}
+            disabled={p === "..."}
+          >
+            {filteredMeals.length > 0 ?  p : null}
+          </button>
+        ))}
+
+        <button onClick={nextPage} disabled={currPage === totalPages} className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50">
+          {">"}
+        </button>
+      </div>
     </div>
   );
 };

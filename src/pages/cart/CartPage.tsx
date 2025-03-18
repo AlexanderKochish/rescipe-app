@@ -22,7 +22,7 @@ const CartPage = () => {
           const isNumber = !isNaN(numericPart);
     
           const result = isNumber ? numericPart * 2 : measure;
-          allIngredients.push(`${ingredient} - ${typeof result === 'number'? `${result}${measure?.replace(/^\d+(\s\d+\/\d+|\.\d+|\/\d+)?|\d+$/g, '')}`: ''}`);
+          allIngredients.push(`${ingredient} - ${typeof result === 'number'? `${result}${measure?.replace(/^\d+(\s\d+\/\d+|\.\d+|\/\d+)?|\d+$/g, '')}`: 'Pinch'}`);
         }
       }
     });
