@@ -28,11 +28,11 @@ const ViewPagination = ({
     }
 
     return (
-        <div className="flex justify-center space-x-2 mt-4">
+        <div className="flex justify-center space-x-2 mt-10">
             <button
                 onClick={prevPage}
                 disabled={currPage === 1}
-                className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+                className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-200 duration-200"
             >
                 {'<'}
             </button>
@@ -41,10 +41,10 @@ const ViewPagination = ({
                 <button
                     key={index}
                     onClick={() => typeof p === 'number' && handlePage(p)}
-                    className={`px-3 py-1 rounded ${
+                    className={`px-3 py-1 rounded cursor-pointer ${
                         currPage === p
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-gray-300'
+                            ? 'bg-blue-500 text-white hover:bg-blue-400 duration-200'
+                            : 'bg-gray-300 hover:bg-gray-200 duration-200'
                     }`}
                     disabled={p === '...'}
                 >
@@ -55,7 +55,7 @@ const ViewPagination = ({
             <button
                 onClick={nextPage}
                 disabled={currPage === totalPages}
-                className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+                className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-200 duration-200"
             >
                 {'>'}
             </button>
