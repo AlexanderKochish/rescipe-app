@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import RecipeCard from '../../components/RecipeCard'
-import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { getAllCategories, getAllRecipes } from '../../api/api'
 import { Meal } from '../../utils/types'
@@ -9,6 +8,7 @@ import usePagination from '../../hooks/usePagination'
 import PreLoader from '../../components/UI/PreLoader/PreLoader'
 import ViewPagination from '../../components/UI/ViewPagination/ViewPagination'
 import toast from 'react-hot-toast'
+import Cart from '../../components/UI/Cart/Cart'
 
 const RecipesPage = () => {
     const {
@@ -61,19 +61,13 @@ const RecipesPage = () => {
 
     return (
         <div>
-            <div className="fixed bottom-10 right-10 z-50">
-                <Link to="/cart" state={{ cart }}>
-                    <button className="px-4 py-2 bg-blue-500 text-white rounded">
-                        Go to cart ({cart.length})
-                    </button>
-                </Link>
-            </div>
+            <Cart cart={cart} />
             <input
                 type="search"
                 placeholder="Search recipe..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full p-3 border rounded my-2"
+                className="w-full p-3 border rounded my-2 outline-blue-500"
             />
 
             <ul className="w-full flex flex-wrap space-x-2 space-y-2">
