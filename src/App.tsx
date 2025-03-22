@@ -1,15 +1,17 @@
-import { Outlet } from "react-router-dom";
-import Header from "./components/Header/Header";
+import { Outlet } from 'react-router-dom'
+import Header from './components/Header/Header'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
-  return (
-    <>
-      <Header />
-      <main className="container">
-        <Outlet />
-      </main>
-    </>
-  );
+    return (
+        <>
+            <Toaster />
+            <Header />
+            <main className="container">
+                <Outlet />
+            </main>
+        </>
+    )
 }
 
-export default App;
+export default App

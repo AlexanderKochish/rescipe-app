@@ -1,15 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 const Header = () => {
-  return (
-    <nav className="bg-orange-500 text-white p-6 shadow-lg">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold">
-          🍽 MyRecipes
-        </Link>
-      </div>
-    </nav>
-  );
-};
+    return (
+        <nav className="bg-orange-500 text-white p-6 shadow-lg">
+            <div className="container mx-auto flex justify-between items-center">
+                <Link to="/" className="text-2xl font-bold">
+                    🍽 MyRecipes
+                </Link>
+            </div>
+        </nav>
+    )
+}
 
-export default Header;
+export default Header
